@@ -51,7 +51,7 @@ Here, we'lll read in a basic version of the summary statistics file into a `data
 
 ```{r parse1, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 pathToDataFile <- "./EGG_BMI_HapMap_DISCOVERY.txt.gz"
-sumstats <- as.data.frame(data.table::fread(paste0("zcat < ", pathToDataFile), showProgress = FALSE))
+sumstats <- as.data.frame(data.table::fread(paste0("\"C:\\Program Files\\Git\\bin\\sh.exe\" zcat < ", pathToDataFile), showProgress = FALSE))
 head(sumstats)
 ```
 

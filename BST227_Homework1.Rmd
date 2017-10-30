@@ -2,6 +2,14 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Libraries
+```{r}
+library(tidyverse)
+library(qqman)
+library(stringr)
+```
+
+
 # Introduction
 You've recently discovered that there are in fact two types of cholesterol-- both good (HDL) and bad (LDL). You are worried that you may have a genetic predisposition to having high levels of bad cholesterol and decide to investigate what genes may be associated with bad cholesterol. Here, we'll do a basic exploration of the data before investigating the specific genetic effects in subsequent lectures. 
 
@@ -10,6 +18,19 @@ You've recently discovered that there are in fact two types of cholesterol-- bot
 
 _Hint: use the _**qqman** _package in **R** to visualize the data, which can be accessed through_ **LDHub**. 
 
+```{r}
+pathToDataFile <- "./jointGwasMc_LDL.txt.gz"
+sumstats <- as.data.frame(data.table::fread(paste0("\"C:\\Program Files\\Git\\bin\\sh.exe\" zcat < ", pathToDataFile), showProgress = FALSE))
+```
+
+```{r}
+sumstats <- sumstats %>% mutate(snp = gsub("chr", "", sumstats$SNP_hg19))
+sumstats <- sumstats %>% separate(snp, sep = ":", into = c("CHR", "BP")) %>%
+  filter(`P-value` != 0) %>% na.omit()
+sumstats$CHR <- as.numeric(sumstats$CHR)
+sumstats$BP <- as.numeric(sumstats$BP)
+manhattan(sumstats, snp = "rsid", p = "P-value")
+```
 
 
 \newpage
